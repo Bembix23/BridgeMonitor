@@ -2,9 +2,36 @@
 
 <h1>Liste des heures</h1>
 
+@{
+    Model.Sort((a, b) => a.closing_date.CompareTo(b.closing_date));
+}
+
 <ul>
+    @{string dateproche = "2021-09-15T14:19:00+0200";}
     @foreach (var heures in Model)
     {
-        <li>@heures.closing_date</li>
+        var d1 = Convert.ToDateTime(DateTime.Now.ToString());
+        var d2 = Convert.ToDateTime(@heures.closing_date);
+
+        int result = DateTime.Compare(d2, d1);
+
+        if (result == 1)
+        {
+            var d3 = Convert.ToDateTime(dateproche);
+            int new_result = DateTime.Compare(d3, d2);
+
+            if (new_result == 1)
+            {
+                dateproche = @heures.closing_date.ToString();
+            }
+        }
+
+        if (@heures.closing_date.ToString() == dateproche)
+        {
+            <p>Le pont devra être fermé le @heures.closing_date.DayOfWeek @heures.closing_date</p>
+            <p>Il pourra être réouvert le @heures.reopening_date.DayOfWeek @heures.reopening_date</p>
+            <p>La raison est : @heures.boat_name</p>
+        }
+
     }
 </ul> 
