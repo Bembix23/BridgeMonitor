@@ -18,7 +18,7 @@ namespace BridgeMonitor.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Prochaine_Fermeture()
         {
             return View();
         }
