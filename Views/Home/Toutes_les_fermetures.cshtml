@@ -1,0 +1,74 @@
+@model List<HeureFermeture>
+
+@{
+    Model.Sort((a, b) => a.closing_date.CompareTo(b.closing_date));
+}
+
+@{
+    List<HeureFermeture> fermeture_passee = new List<HeureFermeture>();
+    List<HeureFermeture> fermeture_future = new List<HeureFermeture>();
+}
+
+@foreach (var heures in Model)
+{
+    var d1 = Convert.ToDateTime(DateTime.Now.ToString());
+    var d2 = Convert.ToDateTime(@heures.closing_date);
+
+    int result = DateTime.Compare(d2, d1);
+
+    if (result == 1)
+    {
+        fermeture_future.Add(heures);
+    }
+    else
+    {
+        fermeture_passee.Add(heures);
+    }
+}
+
+<h2>Prochaines fermetures</h2>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Cause</th>
+            <th>Date</th>
+            <th>Duree</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var heures in fermeture_future)
+        {
+            <tr>
+                <td>@heures.boat_name</td>
+                <td>@heures.closing_date</td>
+                <td>@Html.Raw(@heures.reopening_date - @heures.closing_date)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<h2>Fermetures deja passees</h2>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Cause</th>
+            <th>Date</th>
+            <th>Duree</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var heures in fermeture_passee)
+        {
+            <tr>
+                <td>@heures.boat_name</td>
+                <td>@heures.closing_date</td>
+                <td>@Html.Raw(@heures.reopening_date - @heures.closing_date)</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -26,9 +26,10 @@ namespace BridgeMonitor.Controllers
             return View(heures);
         }
 
-        public IActionResult Privacy()
+        public IActionResult Toutes_les_fermetures()
         {
-            return View();
+            var heures = GetHourFromApi();
+            return View(heures);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
